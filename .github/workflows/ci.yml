@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses : actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '23'
+          cache: maven
+
+      - name: Build (if any maven modules exist)
+        shell: bash
+        run: |
+          set -e
+          if ls **/pom.xml 1> /dev/null 2>&1; then
+            echo "Found pom.xml files, builing..."
+            mvn -B -ntp -DskipTests=false test
+          else 
+            echo "No pom.xml found yet. Skipping maven build."
+          fi
