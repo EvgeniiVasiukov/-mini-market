@@ -29,9 +29,9 @@ jobs:
         shell: bash
         run: |
           set -e
-          if ls **/pom.xml 1> /dev/null 2>&1; then
-            echo "Found pom.xml files, builing..."
+          if find . -name pom.xml -print -quit | grep -q .; then
+            echo "Found pom.xml files, building..."
             mvn -B -ntp -DskipTests=false test
-          else 
+          else
             echo "No pom.xml found yet. Skipping maven build."
           fi
