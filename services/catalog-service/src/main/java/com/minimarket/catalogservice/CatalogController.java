@@ -7,7 +7,7 @@ import java.util.Map;
 
 @RestController
 public class CatalogController {
-    @GetMapping("/api/catalog-service/items")
+    @GetMapping("/api/v1/catalog/items")
     public Map<String, String> getCatalogItems() {
         return Map.of("items", "item1", "item2", "item3");
     }
