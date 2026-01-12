@@ -31,7 +31,7 @@ jobs:
           set -e
           if find . -name pom.xml -print -quit | grep -q .; then
             echo "Found pom.xml files, building..."
-            mvn -package -DskipTests
+            mvn package -DskipTests
           else
             echo "No pom.xml found yet. Skipping maven build."
           fi
