@@ -25,13 +25,13 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Build (if any maven modules exist)
+      - name: Build with maven wrapper
         shell: bash
         run: |
           set -e
           if find . -name pom.xml -print -quit | grep -q .; then
             echo "Found pom.xml files, building..."
-            mvn package -DskipTests
+            ./mvnw -B -ntp test
           else
             echo "No pom.xml found yet. Skipping maven build."
           fi
