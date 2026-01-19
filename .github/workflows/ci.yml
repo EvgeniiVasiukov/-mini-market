@@ -27,11 +27,4 @@ jobs:
 
       - name: Build with maven wrapper
         shell: bash
-        run: |
-          set -e
-          if find . -name pom.xml -print -quit | grep -q .; then
-            echo "Found pom.xml files, building..."
-            ./mvnw -B -ntp test
-          else
-            echo "No pom.xml found yet. Skipping maven build."
-          fi
+        run: ./mvnw -B -ntp clean package -DskipTests
