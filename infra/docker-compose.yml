@@ -6,9 +6,12 @@ services:
       POSTGRES_DB: catalog
       POSTGRES_USER: catalog
       POSTGRES_PASSWORD: catalog
+      POSTGRES_MULTIPLE_DATABASES:
+        "auth,orders,payment"
     ports:
         - "5432:5432"
     volumes:
-      - pgdata:/vae/lib/postresql/data
+      - pgdata:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
 volumes:
   pgdata:
