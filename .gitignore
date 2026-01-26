@@ -1,0 +1,15 @@
+# IntellijIdea
+.idea/
+*.iml
+
+# Os
+.DS_Store
+
+# Logs
+*.log
+
+# Maven
+target/
+
+# environment
+.env
