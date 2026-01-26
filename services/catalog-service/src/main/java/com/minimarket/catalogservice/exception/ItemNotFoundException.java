@@ -1,4 +1,7 @@
 package com.minimarket.catalogservice.exception;
 
-public class ItemNotFoundException {
+public class ItemNotFoundException extends RuntimeException {
+    public ItemNotFoundException(Long id) {
+        super("Item not found with id " + id);
+    }
 }
