@@ -1,18 +1,33 @@
 package com.minimarket.catalogservice.exception;
 
-import com.minimarket.catalogservice.dto.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ApiError> handleItemNotFoundException(ItemNotFoundException e) {
-        ApiError apiError = new ApiError(e.getMessage(), LocalDateTime.now());
+        ApiError apiError = new ApiError(e.getMessage(), Instant.now());
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        e.getBindingResult()
+                .getFieldErrors()
+                .forEach(error -> {errorMap.put(error.getField(), error.getDefaultMessage());});
+        ApiError body = new ApiError(
+                "Validation failed",
+                Instant.now(),
+                errorMap);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 }

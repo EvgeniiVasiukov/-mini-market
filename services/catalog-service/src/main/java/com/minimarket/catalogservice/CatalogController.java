@@ -3,9 +3,11 @@ package com.minimarket.catalogservice;
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
 import com.minimarket.catalogservice.service.ItemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -42,7 +44,8 @@ public class CatalogController {
     }
 
     @PostMapping("/items")
-    public ItemResponseDto createCatalogItem(@RequestBody ItemRequestDto itemRequestDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ItemResponseDto createCatalogItem(@Valid @RequestBody ItemRequestDto itemRequestDto) {
         return itemService.createItem(itemRequestDto);
     }
 
