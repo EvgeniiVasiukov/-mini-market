@@ -2,6 +2,7 @@ package com.minimarket.catalogservice;
 
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
+import com.minimarket.catalogservice.dto.ItemUpdateRequestDto;
 import com.minimarket.catalogservice.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,18 @@ public class CatalogController {
     public ItemResponseDto updateCatalogItem(@RequestBody ItemRequestDto itemRequestDto,
                                              @PathVariable("id") Long id) {
         return itemService.updateItem(id, itemRequestDto);
+    }
+
+    @PatchMapping("/items/{id}")
+            public ItemResponseDto partiallyUpdateCatalogItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto,
+                                                              @PathVariable("id") Long id) {
+        return itemService.patchItem(id, itemUpdateRequestDto);
+    }
+
+    @DeleteMapping("items/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCatalogItem(@PathVariable("id") Long id) {
+        itemService.deleteItem(id);
     }
 
 }

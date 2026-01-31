@@ -2,6 +2,7 @@ package com.minimarket.catalogservice.service;
 
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
+import com.minimarket.catalogservice.dto.ItemUpdateRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,7 @@ public interface ItemService {
     ItemResponseDto getItemById(Long id);
     ItemResponseDto createItem(ItemRequestDto requestDto);
     ItemResponseDto updateItem(Long id, ItemRequestDto requestDto);
+
+    ItemResponseDto patchItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto);
+    void deleteItem(Long id);
 }

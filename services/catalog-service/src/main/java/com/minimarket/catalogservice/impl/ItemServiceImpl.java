@@ -2,7 +2,9 @@ package com.minimarket.catalogservice.impl;
 
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
+import com.minimarket.catalogservice.dto.ItemUpdateRequestDto;
 import com.minimarket.catalogservice.entity.Item;
+import com.minimarket.catalogservice.exception.InvalidItemException;
 import com.minimarket.catalogservice.exception.ItemNotFoundException;
 import com.minimarket.catalogservice.mapper.ItemMapper;
 import com.minimarket.catalogservice.repository.ItemRepository;
@@ -71,6 +73,39 @@ public class ItemServiceImpl implements ItemService {
 
         Item savedItem = itemRepository.save(item);
         return itemMapper.toItemResponseDto(savedItem);
+    }
+
+    @Override
+    public ItemResponseDto patchItem(Long id, ItemUpdateRequestDto dto) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(id));
+        if (dto.getName() != null) {
+            item.setName(dto.getName());
+        }
+        if (dto.getPrice() != null && dto.getPrice().compareTo(BigDecimal.ZERO) > 0) {
+            item.setPrice(dto.getPrice());
+        }
+        if (dto.getPrice() != null && dto.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidItemException("Price must be more than 0");
+        }
+        if (dto.getIsAvailable() != null) {
+            item.setIsAvailable(dto.getIsAvailable());
+        }
+        if (dto.getCategory() != null) {
+            item.setCategory(dto.getCategory());
+        }
+        if (dto.getDescription() != null) {
+            item.setDescription(dto.getDescription());
+        }
+        Item savedItem = itemRepository.save(item);
+        return itemMapper.toItemResponseDto(savedItem);
+    }
+
+    @Override
+    public void deleteItem(Long id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(id));
+        itemRepository.delete(item);
     }
 }
 
