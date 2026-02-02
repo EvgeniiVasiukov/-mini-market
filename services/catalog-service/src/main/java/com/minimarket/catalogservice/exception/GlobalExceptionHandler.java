@@ -16,10 +16,11 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ItemNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ApiError> handleItemNotFoundException(ItemNotFoundException e) {
         ApiError apiError = new ApiError(
                 e.getMessage(),
-                HttpStatus.NOT_FOUND,
+                404,
                 Instant.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidItemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleInvalidItemException(InvalidItemException e) {
-        return new ApiError(e.getMessage(), HttpStatus.BAD_REQUEST, Instant.now());
+        return new ApiError(e.getMessage(), 400, Instant.now());
+    }
+
+    @ExceptionHandler(InvalidCategoryExceptrion.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleInvalidCategoryException(InvalidCategoryExceptrion e) {
+        return new ApiError(e.getMessage(), 400, Instant.now());
     }
 }

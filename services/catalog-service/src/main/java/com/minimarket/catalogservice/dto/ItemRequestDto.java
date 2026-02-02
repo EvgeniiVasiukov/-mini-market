@@ -1,5 +1,6 @@
 package com.minimarket.catalogservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,13 @@ public class ItemRequestDto {
     @DecimalMin(value = "0.00")
     @DecimalMax(value = "9999.00")
     private BigDecimal price;
-    @NotBlank
+    @NotNull
+    @Schema(
+            description = "Item category",
+            allowableValues = {"BIRDS", "MAMMALS", "REPTILES", "FISH", "OTHER"},
+            example = "BIRDS",
+            required = true
+    )
     private String category;
     @NotNull
     private Boolean isAvailable;

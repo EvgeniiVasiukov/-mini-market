@@ -3,6 +3,7 @@ package com.minimarket.catalogservice.impl;
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
 import com.minimarket.catalogservice.dto.ItemUpdateRequestDto;
+import com.minimarket.catalogservice.entity.Category;
 import com.minimarket.catalogservice.entity.Item;
 import com.minimarket.catalogservice.exception.InvalidItemException;
 import com.minimarket.catalogservice.exception.ItemNotFoundException;
@@ -65,12 +66,24 @@ public class ItemServiceImpl implements ItemService {
     public ItemResponseDto updateItem(Long id, ItemRequestDto requestDto) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
-        item.setName(requestDto.getName());
+        if (requestDto.getName() != null) {
+            item.setName(requestDto.getName());
+        }
+        if (requestDto.getPrice() != null) {
         item.setPrice(requestDto.getPrice());
-        item.setIsAvailable(requestDto.getIsAvailable());
-        item.setCategory(requestDto.getCategory());
-        item.setDescription(requestDto.getDescription());
-
+        }
+        if (requestDto.getCategory() != null) {
+            item.setCategory(Category.valueOf(requestDto.getCategory().toUpperCase()));
+        }
+        if (requestDto.getIsAvailable() != null) {
+            item.setIsAvailable(requestDto.getIsAvailable());
+        }
+        if (requestDto.getImageUrl() != null) {
+            item.setImageUrl(requestDto.getImageUrl());
+        }
+        if (requestDto.getDescription() != null) {
+            item.setDescription(requestDto.getDescription());
+        }
         Item savedItem = itemRepository.save(item);
         return itemMapper.toItemResponseDto(savedItem);
     }
@@ -92,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
             item.setIsAvailable(dto.getIsAvailable());
         }
         if (dto.getCategory() != null) {
-            item.setCategory(dto.getCategory());
+            item.setCategory(Category.valueOf(dto.getCategory()));
         }
         if (dto.getDescription() != null) {
             item.setDescription(dto.getDescription());

@@ -27,8 +27,9 @@ public class Item {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private String category;
+    private Category category;
 
     @Column(name = "is_available")
     private Boolean isAvailable;

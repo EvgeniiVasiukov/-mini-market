@@ -2,7 +2,8 @@ package com.minimarket.catalogservice.mapper;
 
 import com.minimarket.catalogservice.dto.ItemRequestDto;
 import com.minimarket.catalogservice.dto.ItemResponseDto;
-import com.minimarket.catalogservice.dto.ItemUpdateRequestDto;
+import com.minimarket.catalogservice.exception.InvalidCategoryExceptrion;
+import com.minimarket.catalogservice.entity.Category;
 import com.minimarket.catalogservice.entity.Item;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class ItemMapper {
         dto.setDescription(item.getDescription());
         dto.setIsAvailable(item.getIsAvailable());
         dto.setImageUrl(item.getImageUrl());
-        dto.setCategory(item.getCategory());
+        dto.setCategory(item.getCategory().name());
         return dto;
     }
     public Item toItem(ItemRequestDto dto) {
@@ -26,9 +27,13 @@ public class ItemMapper {
         item.setDescription(dto.getDescription());
         item.setIsAvailable(dto.getIsAvailable());
         item.setImageUrl(dto.getImageUrl());
-        item.setCategory(dto.getCategory());
+        try {
+            item.setCategory(Category.valueOf(dto.getCategory().toUpperCase()));
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidCategoryExceptrion("Unknown category: " + dto.getCategory());
+        };
         return item;
     }
-    public void updateEntity(Item item, ItemUpdateRequestDto dto) {}
+
 
 }
