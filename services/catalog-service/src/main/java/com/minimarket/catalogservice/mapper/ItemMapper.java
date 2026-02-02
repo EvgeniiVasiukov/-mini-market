@@ -17,7 +17,7 @@ public class ItemMapper {
         dto.setDescription(item.getDescription());
         dto.setIsAvailable(item.getIsAvailable());
         dto.setImageUrl(item.getImageUrl());
-        dto.setCategory(item.getCategory().name());
+        dto.setCategory(item.getCategory());
         return dto;
     }
     public Item toItem(ItemRequestDto dto) {
@@ -28,7 +28,7 @@ public class ItemMapper {
         item.setIsAvailable(dto.getIsAvailable());
         item.setImageUrl(dto.getImageUrl());
         try {
-            item.setCategory(Category.valueOf(dto.getCategory().toUpperCase()));
+            item.setCategory(dto.getCategory());
         } catch (IllegalArgumentException ex) {
             throw new InvalidCategoryExceptrion("Unknown category: " + dto.getCategory());
         };

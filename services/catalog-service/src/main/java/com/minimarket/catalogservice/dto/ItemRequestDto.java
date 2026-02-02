@@ -1,5 +1,6 @@
 package com.minimarket.catalogservice.dto;
 
+import com.minimarket.catalogservice.entity.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,10 @@ public class ItemRequestDto {
     @NotNull
     @Schema(
             description = "Item category",
-            allowableValues = {"BIRDS", "MAMMALS", "REPTILES", "FISH", "OTHER"},
             example = "BIRDS",
             required = true
     )
-    private String category;
+    private Category category;
     @NotNull
     private Boolean isAvailable;
 }

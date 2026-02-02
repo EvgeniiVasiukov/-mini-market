@@ -1,5 +1,6 @@
 package com.minimarket.catalogservice.dto;
 
+import com.minimarket.catalogservice.entity.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import lombok.Data;
@@ -15,10 +16,9 @@ public class ItemUpdateRequestDto {
     private String imageUrl;
     @Schema(
             description = "Item category",
-            allowableValues = {"BIRDS", "MAMMALS", "REPTILES", "FISH", "OTHER"},
             example = "BIRDS",
             required = true
     )
-    private String category;
+    private Category category;
     private Boolean isAvailable;
 }

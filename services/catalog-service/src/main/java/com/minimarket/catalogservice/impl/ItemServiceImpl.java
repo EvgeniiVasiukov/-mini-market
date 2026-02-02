@@ -73,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
         item.setPrice(requestDto.getPrice());
         }
         if (requestDto.getCategory() != null) {
-            item.setCategory(Category.valueOf(requestDto.getCategory().toUpperCase()));
+            item.setCategory(requestDto.getCategory());
         }
         if (requestDto.getIsAvailable() != null) {
             item.setIsAvailable(requestDto.getIsAvailable());
@@ -105,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
             item.setIsAvailable(dto.getIsAvailable());
         }
         if (dto.getCategory() != null) {
-            item.setCategory(Category.valueOf(dto.getCategory()));
+            item.setCategory(dto.getCategory());
         }
         if (dto.getDescription() != null) {
             item.setDescription(dto.getDescription());
